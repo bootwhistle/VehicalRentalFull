@@ -1,0 +1,72 @@
+@model ReservationCreateViewModel
+@{
+    ViewData["Title"] = "Edit Reservation";
+    var reservationId = ViewBag.ReservationId;
+}
+
+<div class="page-header">
+    <h2 class="fw-bold mb-0"><i class="bi bi-pencil-square me-2" style="color:#4fc3f7;"></i>Edit Reservation #@reservationId</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Reservations
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card p-4">
+            <form asp-action="Edit" asp-route-id="@reservationId" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label asp-for="CustomerId" class="form-label small fw-semibold"></label>
+                        <select asp-for="CustomerId" asp-items="Model.Customers" class="form-select">
+                            <option value="">-- Select Customer --</option>
+                        </select>
+                        <span asp-validation-for="CustomerId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="VehicleId" class="form-label small fw-semibold"></label>
+                        <select asp-for="VehicleId" asp-items="Model.Vehicles" class="form-select">
+                            <option value="">-- Select Vehicle --</option>
+                        </select>
+                        <span asp-validation-for="VehicleId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="StartDate" class="form-label small fw-semibold"></label>
+                        <input asp-for="StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="EndDate" class="form-label small fw-semibold"></label>
+                        <input asp-for="EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Status" class="form-label small fw-semibold"></label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-lg me-1"></i>Save Changes
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScripts.partial")
+}

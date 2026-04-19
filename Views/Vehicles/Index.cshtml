@@ -1,0 +1,87 @@
+@model IEnumerable<Vehicle>
+@{
+    ViewData["Title"] = "Vehicles";
+    var currentStatus = ViewBag.CurrentStatus as string;
+}
+
+<div class="page-header">
+    <h2 class="fw-bold mb-0"><i class="bi bi-car-front me-2" style="color:#4fc3f7;"></i>Vehicles</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Add Vehicle
+    </a>
+</div>
+
+<!-- Filter Buttons -->
+<div class="mb-3 d-flex gap-2">
+    <a asp-action="Index" class="btn btn-sm @(currentStatus == null ? "btn-primary" : "btn-outline-secondary")">
+        <i class="bi bi-grid me-1"></i>All
+    </a>
+    <a asp-action="Index" asp-route-status="available" class="btn btn-sm @(currentStatus == "available" ? "btn-success" : "btn-outline-secondary")">
+        <i class="bi bi-check-circle me-1"></i>Available
+    </a>
+    <a asp-action="Index" asp-route-status="rented" class="btn btn-sm @(currentStatus == "rented" ? "btn-danger" : "btn-outline-secondary")">
+        <i class="bi bi-x-circle me-1"></i>Rented
+    </a>
+</div>
+
+<div class="card p-0 overflow-hidden">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Make / Model</th>
+                        <th>Year</th>
+                        <th>Category</th>
+                        <th>License Plate</th>
+                        <th>Daily Rate</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model)
+                    {
+                        <tr>
+                            <td class="text-muted small">@v.VehicleId</td>
+                            <td class="fw-semibold">@v.Make @v.Model</td>
+                            <td>@v.Year</td>
+                            <td>
+                                <span class="text-muted small">@v.Category</span>
+                            </td>
+                            <td class="font-monospace small">@v.LicensePlate</td>
+                            <td class="fw-semibold" style="color:#81c784;">$@v.DailyRate.ToString("N2")</td>
+                            <td>
+                                @if (v.IsAvailable)
+                                {
+                                    <span class="badge badge-available">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-rented">Rented</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@v.VehicleId" class="btn btn-sm btn-outline-secondary me-1" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@v.VehicleId" class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-car-front" style="font-size:2rem;"></i>
+            <p class="mt-2">No vehicles found. <a asp-action="Create" style="color:#4fc3f7;">Add one now.</a></p>
+        </div>
+    }
+</div>

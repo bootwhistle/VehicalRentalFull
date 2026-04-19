@@ -1,0 +1,80 @@
+@model Vehicle
+@{
+    ViewData["Title"] = "Edit Vehicle";
+}
+
+<div class="page-header">
+    <h2 class="fw-bold mb-0"><i class="bi bi-pencil-square me-2" style="color:#4fc3f7;"></i>Edit Vehicle</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Vehicles
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card p-4">
+            <form asp-action="Edit" method="post">
+                <input asp-for="VehicleId" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Make" class="form-label small fw-semibold"></label>
+                        <input asp-for="Make" class="form-control" />
+                        <span asp-validation-for="Make" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Model" class="form-label small fw-semibold"></label>
+                        <input asp-for="Model" class="form-control" />
+                        <span asp-validation-for="Model" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Year" class="form-label small fw-semibold"></label>
+                        <input asp-for="Year" class="form-control" type="number" />
+                        <span asp-validation-for="Year" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Category" class="form-label small fw-semibold"></label>
+                        <select asp-for="Category" class="form-select">
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Truck">Truck</option>
+                            <option value="Van">Van</option>
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="DailyRate" class="form-label small fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background:#0d1117;border-color:#1e3a5f;color:#888;">$</span>
+                            <input asp-for="DailyRate" class="form-control" type="number" step="0.01" />
+                        </div>
+                        <span asp-validation-for="DailyRate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LicensePlate" class="form-label small fw-semibold"></label>
+                        <input asp-for="LicensePlate" class="form-control font-monospace" />
+                        <span asp-validation-for="LicensePlate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsAvailable" class="form-check-input" role="switch" />
+                            <label asp-for="IsAvailable" class="form-check-label">Available for Rental</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-lg me-1"></i>Save Changes
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScripts.partial")
+}

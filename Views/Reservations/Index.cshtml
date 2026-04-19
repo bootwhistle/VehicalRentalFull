@@ -1,0 +1,85 @@
+@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<div class="page-header">
+    <h2 class="fw-bold mb-0"><i class="bi bi-calendar-check me-2" style="color:#4fc3f7;"></i>Reservations</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>New Reservation
+    </a>
+</div>
+
+<div class="card p-0 overflow-hidden">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Days</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        var days = Math.Max(1, (r.EndDate - r.StartDate).Days);
+                        <tr>
+                            <td class="text-muted small">#@r.ReservationId</td>
+                            <td class="fw-semibold">@(r.Customer?.FullName ?? "-")</td>
+                            <td class="small">@(r.Vehicle != null ? $"{r.Vehicle.Year} {r.Vehicle.Make} {r.Vehicle.Model}" : "-")</td>
+                            <td class="small">@r.StartDate.ToString("MMM dd, yyyy")</td>
+                            <td class="small">@r.EndDate.ToString("MMM dd, yyyy")</td>
+                            <td class="text-center">@days</td>
+                            <td>
+                                @{
+                                    var badgeClass = r.Status switch
+                                    {
+                                        "Confirmed" => "badge-confirmed",
+                                        "Pending" => "badge-pending",
+                                        "Cancelled" => "badge-cancelled",
+                                        _ => "badge-pending"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@r.Status</span>
+                            </td>
+                            <td class="text-center">
+                                @if (r.Status != "Cancelled")
+                                {
+                                    <a asp-action="Edit" asp-route-id="@r.ReservationId" class="btn btn-sm btn-outline-secondary me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form asp-action="Cancel" asp-route-id="@r.ReservationId" method="post" class="d-inline"
+                                          onsubmit="return confirm('Cancel reservation #@r.ReservationId?')">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="Cancel">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">—</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-calendar-x" style="font-size:2rem;"></i>
+            <p class="mt-2">No reservations yet. <a asp-action="Create" style="color:#4fc3f7;">Create one now.</a></p>
+        </div>
+    }
+</div>

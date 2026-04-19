@@ -1,0 +1,50 @@
+## Build output
+bin/
+obj/
+
+## NuGet packages (restored automatically)
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## VS Code
+.vscode/
+*.code-workspace
+
+## Rider
+.idea/
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Logs & temp
+*.log
+*.tmp
+*.temp
+
+## EF Core migrations scaffold (keep real Migrations/ folder — only ignore the snapshot if needed)
+## Uncomment below to exclude migrations from source control (not recommended):
+# Migrations/
+
+## Environment / secrets — DO NOT commit real credentials
+# appsettings.Production.json is safe to exclude
+appsettings.Production.json
+*.pfx
+*.p12
+secrets.json
+
+## Project-specific: internal docs not part of the submission
+CLAUDE.md
